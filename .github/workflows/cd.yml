@@ -1,0 +1,13 @@
+name: CD Workflow
+
+on:
+    release:
+        types: [published]
+jobs:
+    Deploy:
+            runs-on: ubuntu-latest
+            steps:
+                - name: Render deployment
+                  env:
+                    deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK }}
+                  run: curl "$deploy_url"
