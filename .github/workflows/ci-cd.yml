@@ -20,4 +20,12 @@ jobs:
               run: npm run lint
             - name: Run unit tests
               run: npm test
-            
+    Deploy:
+            needs: Node_CI_pipeline
+            if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+            runs-on: ubuntu-latest
+            steps:
+                - name: Render deployment
+                  env:
+                    deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK }}
+                  run: curl $deploy_url
